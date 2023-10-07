@@ -1,7 +1,7 @@
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
   <div class="app-brand">
 
-    <a href="{{route('dashboard.user')}}" class="app-brand-link">
+    <a href="{{route('dashboard.user')}}" wire:navigate class="app-brand-link">
       <span class="app-brand-logo demo">
         <img src="{{asset('img/layouts/downloads.ico')}}" class="img-fluid" alt="University Logo" />
       </span>

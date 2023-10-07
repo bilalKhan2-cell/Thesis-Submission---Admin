@@ -5,14 +5,10 @@
     <script src="{{ asset('vendor/js/bootstrap.js') }}"></script>
     <script src="{{ asset('vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
 
-    <script async defer src="{{ asset('vendor/js/menu.js') }}"></script>
-
-    <script src="{{ asset('vendor/libs/apex-charts/apexcharts.js') }}"></script>
+    <script src="{{ asset('vendor/js/menu.js') }}"></script>
 
     <script src="{{ asset('js/main.js') }}"></script>
 
-    <script src="{{ asset('js/dashboards-analytics.js') }}"></script>
-
-    <script async defer src="{{ asset('js/buttons.js') }}"></script>
+    <script src="{{ asset('js/buttons.js') }}"></script>
 
 </div>

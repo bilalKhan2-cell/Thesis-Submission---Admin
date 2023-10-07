@@ -11,8 +11,7 @@ class User extends Component
     
     public function render()
     {
-        return view('livewire.user')
-        ->layout('components.layouts.app',['title'=>'Users']);
+        return view('livewire.user')->with('title','Registered Users');
     }
     
     public function mount()
