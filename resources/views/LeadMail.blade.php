@@ -64,16 +64,14 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($team_lead_data->members as $key=>$val)
                 @if(!empty($team_lead_data->members))
-                <tr>
-                    <td>{{$val->name}}</td>
-                    <td>{{$val->rollno}}</td>
-                </tr>
-                @else
-                    <tr><td colspan="2">No Memebrs Assigned</td></tr>
+                    @foreach($team_lead_data->members as $key=>$val)
+                        <tr>
+                            <td>{{$val->name}}</td>
+                            <td>{{$val->rollno}}</td>
+                        </tr>
+                    @endforeach
                 @endif
-                @endforeach
             </tbody>
         </table>
     </div>

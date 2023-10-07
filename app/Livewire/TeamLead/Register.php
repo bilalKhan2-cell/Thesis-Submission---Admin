@@ -76,15 +76,20 @@ class Register extends Component
             $id = $team->id;
 
             $recs = [];
-            foreach ($this->members as $key => $value) {
-                $recs[] = [
-                    'name' => ucfirst($value['name']),
-                    'rollno' => ucwords($value['rollno']),
-                    'team_id' => $id
-                ];
+            
+            if(!is_null($this->members) || !empty($this->members))
+            {
+                    foreach ($this->members as $key => $value) {
+                    $recs[] = [
+                        'name' => ucfirst($value['name']),
+                        'rollno' => ucwords($value['rollno']),
+                        'team_id' => $id
+                    ];
+                }
+            
+                DB::table('team_members')->insert($recs);
             }
 
-            DB::table('team_members')->insert($recs);
             $this->SendMail($id);
 
             session()->flash('team-success', 'Team Created Successfully..');
@@ -100,7 +105,7 @@ class Register extends Component
 
         TeamLead::where('id', $uid)->update(['pasword' => $pass]);
 
-        $emailContent = view('LeadMail', compact('team_lead_data', 'pass'));
+        $emailContent = view('LeadMail', compact('team_lead_data', 'pass'))->render();
 
         $mail = Mail::to($team_lead_data->email)->send(new LeadMail($emailContent));
     }
