@@ -3,8 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\AssignSupervisor;
+use App\Models\Department;
+use App\Models\Supervisor;
+use App\Models\TeamLead;
+use App\Models\TeamMember;
 use Illuminate\Http\Request;
 use App\Models\TeamThesis;
+use Exception;
 
 class TeamController extends Controller
 {
@@ -52,11 +58,37 @@ class TeamController extends Controller
         }
     }
 
-    public function fetch_result(Request $request){
-        $data = TeamThesis::with(['supervisor'=>function($query){
-            return $query->select('id','name');
-        }])->where('team_id',$request->team_id)->first();
-        return response()->json(['records'=>$data]);
+    public function fetch_result(Request $request)
+    {
+        $data = TeamThesis::with(['supervisor' => function ($query) {
+            return $query->select('id', 'name');
+        }])->where('team_id', $request->team_id)->first();
+        return response()->json(['records' => $data]);
+    }
+
+    public function get_member_team_info(Request $request)
+    {
+        try {
+            $team_member_details = [];
+            $team_member_team_id = TeamMember::where('rollno', $request->roll_no)->first(['team_id']);
+
+            $team_lead_data = TeamLead::where('id', $team_member_team_id->team_id)->first(['name', 'email', 'id', 'department']);
+            $supervisor_id = AssignSupervisor::where('team_id', $team_member_team_id->team_id)->first(['supervisor_id']);
+
+            $team_supervisor_data = Supervisor::where('id', $supervisor_id->supervisor_id)->first(['name', 'email', 'id']);
+            $thesis_details = TeamThesis::where('team_id', $team_member_team_id->team_id)->first(['thesis_file', 'thesis_status', 'comments', 'marks', 'project_title']);
+
+            $department_data = Department::where('id', $team_lead_data->department)->first(['name']);
+
+            $team_member_details[0] = $team_lead_data;
+            $team_member_details[1] = $team_supervisor_data;
+            $team_member_details[2] = $thesis_details;
+            $team_member_details[3] = $department_data;
+
+            return json_encode($team_member_details);
+        } catch (Exception $exception) {
+            return response()->json($exception->getMessage());
+        }
     }
 }
 

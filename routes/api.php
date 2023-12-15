@@ -32,4 +32,6 @@ Route::get('/change_password',[LoginController::class,'change_password']);
 Route::get('/check_current_password',[LoginController::class,'check_current_password']);
 Route::get('/update_password',[LoginController::class,'update_passowrd']);
 
+Route::get('/member/info',[TeamController::class,'get_member_team_info']);
+
 ?>
